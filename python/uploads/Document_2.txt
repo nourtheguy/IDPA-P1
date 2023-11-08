@@ -1,0 +1,1 @@
+Artificial intelligence, often abbreviated as AI, refers to the simulation of human intelligence in machines. It's a discipline within computer science that focuses on creating systems capable of performing activities that normally demand human intelligence. These include activities like speech recognition, decision-making, and visual perception.
