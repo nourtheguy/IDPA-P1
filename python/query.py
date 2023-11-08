@@ -20,9 +20,7 @@ def search_documents(query, document_directory):
         document_paths.append(file_path)
 
     # Preprocess the query
-    preprocessed_query = " ".join(
-        normalize_text(query)
-    )  # Assuming normalize_text is defined in preprocessing.py
+    preprocessed_query = " ".join(normalize_text(query))
 
     # Vectorize documents + query
     vectorizer = TfidfVectorizer()
