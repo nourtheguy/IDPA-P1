@@ -58,17 +58,17 @@ def compute_tf_idf_weights(file_path1, file_path2):
     combined_texts = [" ".join(preprocessed_text1), " ".join(preprocessed_text2)]
 
     # Compute TF weights
-    tf_vectorizer = TfidfVectorizer(
-        use_idf=False, norm=None
-    )  # Get raw term frequencies
+    tf_vectorizer = TfidfVectorizer(use_idf=False, norm=None)
     tf_matrix = tf_vectorizer.fit_transform(combined_texts)
     tf_feature_names = tf_vectorizer.get_feature_names_out()
     tf_weights = tf_matrix.toarray()
 
     # Compute IDF weights
     idf_vectorizer = TfidfVectorizer(use_idf=True, norm=None, smooth_idf=False)
-    idf_vectorizer.fit(combined_texts)
-    idf_weights = np.log((2 + 1) / (1 + idf_vectorizer.idf_)) + 1
+    idf_matrix = idf_vectorizer.fit_transform(combined_texts)
+    idf_values = np.log((1 + idf_matrix.shape[0]) / (1 + idf_vectorizer.idf_)) + 1
+
+
 
     # Compute TF-IDF weights
     tfidf_vectorizer = TfidfVectorizer(use_idf=True, norm=None)
@@ -77,32 +77,23 @@ def compute_tf_idf_weights(file_path1, file_path2):
     tfidf_weights = tfidf_matrix.toarray()
 
     # Create lists for results
-    tf_doc1 = [
-        (feature, weight) for feature, weight in zip(tf_feature_names, tf_weights[0])
-    ]
-    tf_doc2 = [
-        (feature, weight) for feature, weight in zip(tf_feature_names, tf_weights[1])
-    ]
-    idf_list = [
-        (feature, weight) for feature, weight in zip(tf_feature_names, idf_weights)
-    ]
-    tfidf_doc1 = [
-        (feature, weight)
-        for feature, weight in zip(tfidf_feature_names, tfidf_weights[0])
-    ]
-    tfidf_doc2 = [
-        (feature, weight)
-        for feature, weight in zip(tfidf_feature_names, tfidf_weights[1])
-    ]
+    tf_doc1 = [(feature, weight) for feature, weight in zip(tf_feature_names, tf_weights[0])]
+    tf_doc2 = [(feature, weight) for feature, weight in zip(tf_feature_names, tf_weights[1])]
+
+    idf_list_doc1 = list(zip(tf_feature_names, [idf_values[0]] * len(tf_feature_names)))
+    idf_list_doc2 = list(zip(tf_feature_names, [idf_values[1]] * len(tf_feature_names)))
+
+
+    tfidf_doc1 = [(feature, weight) for feature, weight in zip(tfidf_feature_names, tfidf_weights[0])]
+    tfidf_doc2 = [(feature, weight) for feature, weight in zip(tfidf_feature_names, tfidf_weights[1])]
 
     results = {
         "TF": {"Document1": tf_doc1, "Document2": tf_doc2},
-        "IDF": idf_list,
+        "IDF" : {"Document1": idf_list_doc1, "Document2": idf_list_doc2},
         "TF-IDF": {"Document1": tfidf_doc1, "Document2": tfidf_doc2},
     }
 
     return results
-
 
 # # example usage
 # def example_usage():
