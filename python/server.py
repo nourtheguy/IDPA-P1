@@ -4,6 +4,7 @@ from preprocessing import normalize_text, preprocess_document
 from term_weighting import *
 from vectorization import *
 from similarity import *
+from query import *
 
 app = Flask(__name__)
 
@@ -85,6 +86,27 @@ def upload_files():
             return render_template("search.html", error="Unsupported file type")
 
     return render_template("search.html", error=None)
+
+
+@app.route("/search", methods=["GET", "POST"])
+def search_documents():
+    
+        
+    document_directory = "../testing_files"
+
+    if request.method == "POST":
+        query = request.form.get("query")  # Get the search query from the form
+        results = search_documents_in_directory(query, document_directory)  # Call the search function
+
+        # Filter documents based on similarity threshold
+        filtered_results = [(path, score) for path, score in results if score > 0.0]
+
+        if not filtered_results:
+            # No matching documents found
+            return render_template("search.html", search_results=[("No documents found", 0.0)], query=query)
+
+        return render_template("search.html", search_results=filtered_results, query=query)
+
 
 
 if __name__ == "__main__":

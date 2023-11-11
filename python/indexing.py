@@ -1,5 +1,7 @@
+import os
 from preprocessing import normalize_text
-
+import win32com.client  # for handling .doc files
+from docx import Document  # for handling .docx files
 
 class InvertedIndex:
     def __init__(self):
@@ -15,25 +17,43 @@ class InvertedIndex:
             else:
                 self.index[term] = [doc_id]
 
+    def build_index_from_directory(self, document_directory):
+        for root, _, files in os.walk(document_directory):
+            for file in files:
+                file_path = os.path.join(root, file)
+                if file.lower().endswith(".txt"):
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                elif file.lower().endswith(".doc"):
+                    word = win32com.client.Dispatch("Word.Application")
+                    doc = word.Documents.Open(file_path)
+                    content = doc.Content.Text
+                    doc.Close()
+                    word.Quit()
+                elif file.lower().endswith(".docx"):
+                    doc = Document(file_path)
+                    content = "\n".join([paragraph.text for paragraph in doc.paragraphs])
+                else:
+                    continue  # Skip unsupported file types
+
+                self.add_document(file_path, content)
+
     def query(self, word):
         word = word.lower()  # Ensure case-insensitivity
         return self.index.get(word, [])
 
+if __name__ == "__main__":
+    index = InvertedIndex()
+    document_directory = "IDPA-P1/testing_files"
+    index.build_index_from_directory(document_directory)
 
-# # Testing the functionality of the InvertedIndex class.
-# if __name__ == "__main__":
-#     idx = InvertedIndex()
+    # Test the indexing table
+    query_term = "nader"
+    results = index.query(query_term)
 
-#     doc1_content = "I love coding"
-#     doc2_content = "I love music"
-
-#     idx.add_document("doc1", doc1_content)
-#     idx.add_document("doc2", doc2_content)
-
-#     print(idx.query("love"))
-#     print(idx.query("coding"))
-
-#     print(normalize_text(doc1_content))
-#     print(normalize_text(doc2_content))
-
-#     print(idx.index)
+    if results:
+        print(f"Documents containing '{query_term}':")
+        for result in results:
+            print(result)
+    else:
+        print(f"No documents containing '{query_term}' found.")

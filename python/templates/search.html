@@ -18,18 +18,34 @@
       <input type="radio" name="weighting" value="Both" id="both" />
       <label for="both">Both</label><br /><br />
       <label for="similarity">Similarity Method:</label>
-      <input
-        type="radio"
-        name="similarity"
-        value="cosine"
-        id="cosine"
-        checked
-      />
+      <input type="radio" name="similarity" value="cosine" id="cosine" checked />
       <label for="cosine">Cosine</label>
       <input type="radio" name="similarity" value="pcc" id="pcc" />
       <label for="pcc">PCC</label><br /><br />
       <input type="submit" value="Compute" />
     </form>
+
+    <h2>Search Documents</h2>
+    <form action="/search" method="post">
+      <label for="query">Search Query:</label>
+      <input type="text" name="query" id="query" />
+      <input type="submit" value="Search" />
+    </form>
+     
+     <!-- Display search results here -->
+     {% if search_results is defined %}
+     {% if search_results %}
+       <h2>Search Results:</h2>
+       <ul>
+         {% for path, score in search_results %}
+           <li>Document: {{ path }}, Similarity: {{ score }}</li>
+         {% endfor %}
+       </ul>
+     {% else %}
+       <p>No search results.</p>
+     {% endif %}
+   {% endif %}
+
 
     {% if message %}
     <p>{{ message }}</p>
@@ -38,31 +54,41 @@
 
     {% if similarity_score is defined %}
     <p>Similarity Score: {{ similarity_score }}</p>
-    {% endif %} {% if v1 is defined %}
+    {% endif %}
+
+    {% if v1 is defined %}
     <p>Vectors for File 1:</p>
     <ul>
       {% for vector in v1 %}
       <li>{{ vector }}</li>
       {% endfor %}
     </ul>
-    {% endif %} {% if v2 is defined %}
+    {% endif %}
+
+    {% if v2 is defined %}
     <p>Vectors for File 2:</p>
     <ul>
       {% for vector in v2 %}
       <li>{{ vector }}</li>
       {% endfor %}
     </ul>
-    {% endif %} {% if term_weights is defined %} {% if weighting == "Both" %}
-    <p>Term Weights for File 1 (TF): {{ term_weights["TF"]["Document1"] }}</p>
-    <p>Term Weights for File 1 (IDF): {{ term_weights["IDF"] }}</p>
-    <p>Term Weights for File 2 (TF): {{ term_weights["TF"]["Document2"] }}</p>
-    <p>Term Weights for File 2 (IDF): {{ term_weights["IDF"] }}</p>
-    {% elif weighting == "TF" %}
-    <p>Term Weights for File 1 (TF): {{ term_weights["TF"]["Document1"] }}</p>
-    <p>Term Weights for File 2 (TF): {{ term_weights["TF"]["Document2"] }}</p>
-    {% elif weighting == "IDF" %}
-    <p>Term Weights for File 1 (IDF): {{ term_weights["IDF"] }}</p>
-    <p>Term Weights for File 2 (IDF): {{ term_weights["IDF"] }}</p>
-    {% endif %} {% endif %} {% endif %}
+    {% endif %}
+
+    {% if term_weights is defined %}
+      {% if weighting == "Both" %}
+      <p>Term Weights for File 1 (TF): {{ term_weights["TF"]["Document1"] }}</p>
+      <p>Term Weights for File 1 (IDF): {{ term_weights["IDF"]["Document1"] }}</p>
+      <p>Term Weights for File 2 (TF): {{ term_weights["TF"]["Document2"] }}</p>
+      <p>Term Weights for File 2 (IDF): {{ term_weights["IDF"]["Document2"] }}</p>
+      {% elif weighting == "TF" %}
+      <p>Term Weights for File 1 (TF): {{ term_weights["TF"]["Document1"] }}</p>
+      <p>Term Weights for File 2 (TF): {{ term_weights["TF"]["Document2"] }}</p>
+      {% elif weighting == "IDF" %}
+      <p>Term Weights for File 1 (IDF): {{ term_weights["IDF"]["Document1"] }}</p>
+      <p>Term Weights for File 2 (IDF): {{ term_weights["IDF"]["Document2"] }}</p>
+      {% endif %}
+    {% endif %}
+    {% endif %}
+
   </body>
 </html>
