@@ -1,25 +1,33 @@
-/* styles.css */
+/* Reset some default styles */
+body, h1, p {
+  margin: 0;
+  padding: 0;
+}
 
+/* Global styles */
 body {
   font-family: 'Arial', sans-serif;
-  background-color: #f4f4f4;
-  color: #333;
+  background-color: #f8f9fa;
+  color: #495057;
   margin: 20px;
 }
 
 h1 {
-  color: #009688;
+  color: #007bff;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  margin-top: 30px;
+  
 }
 
+/* Form styles */
 form {
-  max-width: 600px;
+  max-width: 500px;
   margin: 0 auto;
-  background-color: #fff;
+  background-color: #ffffff;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
 label {
@@ -33,64 +41,151 @@ input[type="file"] {
   padding: 10px;
   margin-bottom: 15px;
   box-sizing: border-box;
-  border: 1px solid #ddd;
+  border: 1px solid #ced4da;
   border-radius: 5px;
+  background-color: #f1f3f5;
+  color: #495057;
 }
 
-.file-input-wrapper {
-  position: relative;
-  overflow: hidden;
+/* Align radio buttons next to each other */
+.radio-group label,
+.radio-group input[type="radio"] {
   display: inline-block;
-}
-
-.file-input-wrapper input[type="file"] {
-  font-size: 100px;
-  position: absolute;
-  left: 0;
-  top: 0;
-  opacity: 0;
-}
-
-.file-input-button {
-  display: inline-block;
-  padding: 10px 15px;
-  background-color: #009688;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.file-input-button:hover {
-  background-color: #00796b;
+  vertical-align: middle;
 }
 
 .radio-group label {
-  display: inline-block;
-  margin-right: 20px;
-}
-
-.radio-group input[type="radio"] {
-  margin-right: 5px;
-}
-
-.radio-group::after {
-  content: '';
-  display: table;
-  clear: both;
+  margin-right: 10px;
 }
 
 input[type="submit"] {
-  background-color: #009688;
+  background-color: #007bff;
   color: #fff;
-  padding: 10px 20px;
+  padding: 12px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
 input[type="submit"]:hover {
-  background-color: #00796b;
+  background-color: #0056b3;
 }
 
-/* Add more styles as needed */
+#comp {
+  margin-left: 37%;
+}
+
+/* Results Table Styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #009688;
+  color: #fff;
+}
+
+td {
+  background-color: #f9f9f9;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 5px;
+}
+
+/* Additional styling for the radio buttons */
+input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #007bff;
+  border-radius: 50%;
+  outline: none;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+/* Additional styling for checked radio buttons */
+input[type="radio"]:checked {
+  background-color: #000000;
+  border: 2px solid #007bff;
+  color: #fff;
+}
+
+/* Additional styling for the label */
+label {
+  cursor: pointer;
+}
+
+/* Additional styling for the radio button container */
+.radio-group {
+  margin-bottom: 15px;
+}
+
+
+/* Search Form Styles */
+h1 {
+  color: #007bff;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+form.search-form {
+  max-width: 500px;
+  margin: 50px auto;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+form.search-form label,
+form.search-form input {
+  display: block;
+  margin: 10px auto;
+}
+
+form.search-form input[type="text"] {
+  width: calc(100% - 70px);
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  background-color: #f1f3f5;
+  color: #495057;
+}
+
+form.search-form input[type="submit"] {
+  width: calc(100% - 180px);
+  padding: 12px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  display: block;
+  margin: 10px auto;
+}
+
+form.search-form input[type="submit"]:hover {
+  background-color: #0056b3;
+}
