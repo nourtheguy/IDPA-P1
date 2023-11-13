@@ -40,6 +40,7 @@ def upload_files():
             and file2
             and allowed_file(file2.filename)
         ):
+            
             # Save the uploaded files to the upload folder
             file1_path = os.path.join(app.config["UPLOAD_FOLDER"], file1.filename)
             file2_path = os.path.join(app.config["UPLOAD_FOLDER"], file2.filename)
@@ -61,9 +62,14 @@ def upload_files():
             if term_weighting in ["Both", "TF", "IDF"]:
                 term_weights = compute_tf_idf_weights(file1_path, file2_path)
 
-            # Calculate similarity based on the selected method
+                # Calculate similarity based on the selected method
 
-            similarity_score = calculate_cosine_similarity(file1_path, file2_path)
+            similarity_method = request.form['similarity']
+
+            # Calculate similarity based on the selected method
+            similarity_score = calculate_similarity(preprocessed_text1, preprocessed_text2, similarity_method)
+
+
 
             message = (
                 "Files are accepted. Term Weighting: {}, Similarity Method: {}".format(
@@ -109,5 +115,13 @@ def search_documents():
 
 
 
+def calculate_similarity(preprocessed_text1,preprocessed_text2, similarity_method):
+    if similarity_method == 'cosine':
+        return calculate_cosine_similarity(preprocessed_text1,preprocessed_text2 )
+    elif similarity_method == 'pcc':
+        return calculate_pcc_similarity(preprocessed_text1,preprocessed_text2 )
+    else:
+        return None  # Handle unsupported similarity method
+    
 if __name__ == "__main__":
     app.run(debug=True)

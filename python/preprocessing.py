@@ -87,10 +87,3 @@ def preprocess_document(file_path):
     # Preprocess the content using the normalize_text function
     preprocessed_text = normalize_text(content)
     return preprocessed_text
-
-# # Example usage
-# input_file = "testing files\Document 1.docx"
-# preprocessed_text = preprocess_document(input_file)
-
-# # Print the preprocessed text
-# print("\ntokens:\n", preprocessed_text)

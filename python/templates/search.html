@@ -28,10 +28,13 @@
         <!-- Similarity Method Radio Buttons -->
         <div class="radio-group">
             <label for="similarity">Similarity Method:</label>
+            
             <input type="radio" name="similarity" value="cosine" id="cosine" checked />
-            <label for="sim">cosine</label>
+            <label for="cosine">Cosine</label>
+        
+            <input type="radio" name="similarity" value="pcc" id="pcc" />
+            <label for="pcc">PCC</label>
         </div>
-
         <!-- Compute Button -->
         <input type="submit" value="Compute" id="comp" />
     </form>
